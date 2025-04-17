@@ -13,6 +13,7 @@ interface VideoScreenProps {
 export default function VideoScreen({ source, style, asset }: VideoScreenProps): React.JSX.Element {
     const player: VideoPlayer = useVideoPlayer(source, player => {
         player.loop = false;
+        player.play();
     });
 
     const { isPlaying } = useEvent(player, 'playingChange', {
@@ -20,13 +21,11 @@ export default function VideoScreen({ source, style, asset }: VideoScreenProps):
     });
 
     return (
-        <View>
-            <VideoView
-                style={style}
-                player={player}
-                nativeControls={true}
-                contentFit="cover"
-            />
-        </View>
+        <VideoView
+            style={style}
+            player={player}
+            nativeControls={true}
+            contentFit="cover"
+        />
     );
 }

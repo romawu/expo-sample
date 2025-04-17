@@ -21,12 +21,16 @@ const MediaLibraryPicker = () => {
             const media = await MediaLibrary.getAssetsAsync({
                 mediaType: [MediaType.photo, MediaType.video],
                 sortBy: MediaLibrary.SortBy.creationTime,
-                first: 100,
+                first: 50,
                 after: pageInfo?.endCursor || undefined,
             });
 
             for (const asset of media.assets) {
                 const assetDetails: AssetInfo = await MediaLibrary.getAssetInfoAsync(asset.id);
+                if (asset.mediaType === MediaType.video) {
+                    asset.uri = assetDetails.localUri!.replace(/(\.MOV|\.mov).*$/, "$1")!
+                    console.log(asset.uri);
+                }
                 asset.uri = assetDetails.localUri!;
             }
 

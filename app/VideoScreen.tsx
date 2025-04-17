@@ -1,15 +1,16 @@
 import React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import {StyleSheet, View, Button, StyleProp, ViewStyle} from 'react-native';
 import { useEvent } from 'expo';
 import { useVideoPlayer, VideoView, VideoPlayer } from 'expo-video';
 import {Asset} from "expo-asset";
 
 interface VideoScreenProps {
     source: string;
+    style?: StyleProp<ViewStyle>;
     asset?: Asset;
 }
 
-export default function VideoScreen({ source, asset }: VideoScreenProps): JSX.Element {
+export default function VideoScreen({ source, style, asset }: VideoScreenProps): React.JSX.Element {
     const player: VideoPlayer = useVideoPlayer(source, player => {
         player.loop = false;
     });
@@ -19,30 +20,13 @@ export default function VideoScreen({ source, asset }: VideoScreenProps): JSX.El
     });
 
     return (
-        <View style={styles.contentContainer}>
+        <View>
             <VideoView
-                style={{
-                    width: 200,
-                    height: 200,
-                }}
+                style={style}
                 player={player}
-                allowsFullscreen
-                allowsPictureInPicture
-
+                nativeControls={true}
+                contentFit="cover"
             />
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    contentContainer: {
-        flex: 1,
-        padding: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingHorizontal: 50,
-    },
-    controlsContainer: {
-        padding: 10,
-    },
-});
